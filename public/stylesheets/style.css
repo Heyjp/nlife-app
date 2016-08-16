@@ -1,0 +1,55 @@
+body {
+  background-color: red;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.attendance-anchor {
+  width: 25%;
+  display: block;
+  background-color: blue;
+  border-radius: 5px;
+  padding: 10px 20px;
+  float: none;
+}
+
+.info-holder {
+  display: inline-block;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.info-holder h4 {
+  text-align: center;
+}
+
+.info-holder img {
+  float: left;
+  margin-right: 20px;
+}
+
+.info-holder p {
+  padding-top: 20px;
+}
+
+.nav-bar {
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.nav-bar ul {
+
+}
+
+.nav-bar li {
+  display: inline-block;
+  padding: 10px;
+  list-style: none;
+}

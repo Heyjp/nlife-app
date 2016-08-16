@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+    <link rel="stylesheet" href="./public/stylesheets/style.css" media="screen" title="no title" charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dustjs-linkedin/2.7.3/dust-full.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dustjs-helpers/1.7.3/dust-helpers.js"></script>
+		<script src="./public/javascripts/query.js">
+		</script>
+</head>
+
+<body>
+
+  <header class="nav-bar">
+    <nav>
+      <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+Welcome to Dust, {name}
+
+<form method="GET" action="/search/">
+		<input type="search" id="search-bar" name="location-search" placeholder="What you looking for?">
+		<button id="search-but" type="submit">Search</button>
+	</form>
+
+<div class="data">
+
+	<h3>Here is where the data should go</h3>
+	<p>
+		Placeholder
+	</p>
+  {#object}
+  <div class="info-holder">
+    <h4 class="location-name">{name} name</h4>
+    <p class="rating">{rating} rating</p>
+    <p>{location} city</p>
+    <p class="review">{text} snippet review</p>
+    <p>{id} id</p>
+    <img src="{img}" />
+    <div class="guestList-holder">
+      <a class="attendance-anchor" name="{id}" href="#">People Going = {att}</a>
+      <input type="hidden" name="{location}" value="{id}" />
+    </div>
+  </div>
+  {/object}
+
+</div>
+
+</body>
