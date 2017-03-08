@@ -1,3 +1,3 @@
 module.exports = {
-    'url' : 'mongodb://localhost:27017/nlife'
+    'url' : process.env.MONGO_KEY
   }
