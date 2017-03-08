@@ -4,7 +4,6 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var Location = require('../config/guestlist');
-
 var ySearch = require('../config/yelp');
 var User = require('../models/users');
 
@@ -79,7 +78,6 @@ router.get('/search/', function (req, res) {
                   console.log(err);
                   res.send("there was an error");
                 }
-
                   res.status(200).json(query);
               });
             }
