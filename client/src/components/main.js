@@ -16,7 +16,9 @@ class DataContainer extends React.Component {
           </div>
         )} />
 
-        <Route path="/login" component={Login} />
+        <Route path="/login" login={this.props.login} render={(props) => (
+          <Login login={this.props.login} {...props} />
+        )} />
         <Route path="/logout" component={Logout} />
       </div>
     )
