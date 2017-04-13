@@ -82,7 +82,6 @@ var createHash = function(password){
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 }
 
-
 function generateToken(user) {
   var u = {
     name: user.name

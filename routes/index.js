@@ -62,18 +62,23 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/*', function (req, res) {
+  res.redirect('/');
+});
+
+
+
 // AJAX request
-router.get('/search/', function (req, res) {
+router.post('/search/', function (req, res) {
 
-    console.log(req.query, "this is req");
-
-      var location = req.query.query;
+      let location = req.body.city;
+      console.log(location, "this is location")
       req.session.lastSearch = location;
 
       ySearch.newLocalSearch(location, function (err, data) {
         if (err) {
           console.log(err, "here is the error");
-          res.redirect("/")
+          res.send(err);
         } else {
           console.log("there was no error, querying database")
             // DATABASE QUERY IF SUCCESSFULL
@@ -88,7 +93,7 @@ router.get('/search/', function (req, res) {
             }
         });
   });
-
+/*
   router.get('/dashboard', function (req, res) {
     if (req.user) {
       res.render('dashboard', {name: req.user.username});
@@ -120,7 +125,7 @@ router.get('/search/', function (req, res) {
     let city = req.body.city;
 
     console.log(req.body, "this is check req")
-    
+
     if (req.user) {
     var user = req.user.username;
 
@@ -143,6 +148,8 @@ router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
+
+*/
 
 module.exports = router;
 

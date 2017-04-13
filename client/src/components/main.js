@@ -5,14 +5,40 @@ import {Login, Logout} from  './login.js'
 import Title from './title.js'
 
 class DataContainer extends React.Component {
+  constructor(props) {
+    super(props)
+
+
+    this.queryServer = this.queryServer.bind(this);
+  }
+
+
+  state = {
+    query: "",
+    locations: []
+  }
+
+  queryServer (location) {
+    let self = this;
+
+    axios.post('/search', {
+      city: location
+    }).then(function (res) {
+      console.log(res, "queryServer response")
+      self.setState({
+        locations: res.data.businesses
+      })
+    })
+  }
+
   render () {
     return (
       <div className="data-container">
         <Title />
         <Route exact path="/" render={() => (
           <div className="search-wrapper">
-            <SearchForm />
-            <ListContainer />
+            <SearchForm search={this.queryServer} />
+            <ListContainer locations={this.state.locations} />
           </div>
         )} />
 
@@ -26,12 +52,34 @@ class DataContainer extends React.Component {
 }
 
 class SearchForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+  state = {
+    location: ""
+  }
+
+  handleChange (e) {
+    console.log("handling change", e.target.value)
+    this.setState({
+      location: e.target.value
+    })
+  }
+
+  handleSubmit () {
+    console.log("handling submit")
+    console.log("this.props.search in handleSubmit", this.props.search)
+    this.props.search(this.state.location)
+  }
 
   render () {
     return (
       <div className="form">
-        <input type="text" name="" value="" placeholder="Enter a city name" />
-        <button>Submit</button>
+        <input type="text" name="" value={this.state.location} placeholder="Enter a city" onChange={this.handleChange}/>
+        <button onClick={this.handleSubmit}>Submit</button>
       </div>
     )
   }
@@ -41,12 +89,18 @@ class SearchForm extends React.Component {
 class ListContainer extends React.Component {
 
   render () {
-    if (this.props.location) {
-      let locations  = this.props.locations.map( (e) => {
+    let locations;
+
+    if (this.props.locations.length > 0) {
+         locations  = this.props.locations.map( (e,i) => {
           return([
-            <Address data={e[0]}/>,
-            <Attendance data={e[1]} />,
+          <div>
+            <div className="location">
+              <Address data={e} key={i}/>
+              <Attendance data={e.guestListLength} key={100 + i} />
+            </div>
             <hr/>
+          </div>
           ])
       } )
     }
@@ -60,7 +114,7 @@ class ListContainer extends React.Component {
         </div>
 
         <div className="location-container">
-          <h1>Container</h1>
+          {locations || <h1>Enter a Location</h1>}
         </div>
 
         <hr />
@@ -72,6 +126,10 @@ class ListContainer extends React.Component {
 }
 
 class Address extends React.Component {
+
+
+
+
 
   render () {
     return (
