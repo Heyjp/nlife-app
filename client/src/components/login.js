@@ -1,5 +1,6 @@
 import React from 'react'
 
+import {Redirect} from 'react-router-dom'
 /*
 
 export const Login = () => (
@@ -53,6 +54,13 @@ export class Login extends React.Component {
   }
 
   render () {
+    if (this.props.LoggedIn) {
+      return (
+        <Redirect to={{pathname: '/'}} />
+      )
+    }
+
+
     return (
       <div className="log-box">
         <div className="menu">

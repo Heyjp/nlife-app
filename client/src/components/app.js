@@ -1,10 +1,15 @@
 import React from 'react'
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Route, Redirect} from 'react-router-dom'
 
 import Menu from './menu.js'
 import Main from './main.js'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleLogin = this.handleLogin.bind(this);
+  }
 
   state = {
     query: "",
@@ -12,20 +17,25 @@ class App extends React.Component {
   }
 
   handleLogin (e) {
+    let self = this;
     axios.post('/login', {
       username: e.username,
       password: e.password
-    }).then(function (res ) {
-      console.log(res);
+    }).then(function (res) {
+      console.log("returning");
+      self.setState({
+        isLoggedIn: true
+      })
     })
   }
 
   render () {
+
     return (
       <Router>
         <div className="main-container">
           <Menu  />
-          <Main login={this.handleLogin} />
+          <Main LoggedIn={this.state.isLoggedIn} login={this.handleLogin} />
         </div>
       </Router>
     )

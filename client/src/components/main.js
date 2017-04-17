@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Link} from 'react-router-dom'
+import {Route, Link, Redirect} from 'react-router-dom'
 
 import {Login, Logout} from  './login.js'
 import Title from './title.js'
@@ -7,7 +7,6 @@ import Title from './title.js'
 class DataContainer extends React.Component {
   constructor(props) {
     super(props)
-
 
     this.queryServer = this.queryServer.bind(this);
   }
@@ -26,10 +25,15 @@ class DataContainer extends React.Component {
     }).then(function (res) {
       console.log(res, "queryServer response")
       self.setState({
-        locations: res.data.businesses
+        locations: []
+      }, function () {
+        self.setState({
+          locations: res.data.businesses
+        })
       })
     })
   }
+
 
   render () {
     return (
@@ -38,13 +42,12 @@ class DataContainer extends React.Component {
         <Route exact path="/" render={() => (
           <div className="search-wrapper">
             <SearchForm search={this.queryServer} />
-            <ListContainer locations={this.state.locations} />
+            <ListContainer LoggedIn={this.props.LoggedIn} locations={this.state.locations} />
           </div>
         )} />
-
         <Route path="/login" login={this.props.login} render={(props) => (
-          <Login login={this.props.login} {...props} />
-        )} />
+              <Login login={this.props.login} LoggedIn={this.props.LoggedIn} {...props} />
+          )} />
         <Route path="/logout" component={Logout} />
       </div>
     )
@@ -97,7 +100,7 @@ class ListContainer extends React.Component {
           <div>
             <div className="location">
               <Address data={e} key={i}/>
-              <Attendance data={e.guestListLength} key={100 + i} />
+              <Attendance isLoggedIn={this.props.LoggedIn} data={e} key={100 + i} />
             </div>
             <hr/>
           </div>
@@ -135,7 +138,6 @@ class Address extends React.Component {
   }
 
 
-
   render () {
     return (
       <div className="address">
@@ -151,11 +153,46 @@ class Address extends React.Component {
 }
 
 class Attendance extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+  state = {
+    attendance: this.props.data.guestListLength,
+    id: this.props.data.id,
+    city: this.props.data.location.city,
+    isLoggedIn: false
+  }
+
+  reqAttend (e) {
+    let self = this;
+    axios.post('/check', {
+      id: e.id,
+      city: e.city
+    }).then(function (res) {
+      self.setState({
+        attendance: res.data.guestList
+      })
+    })
+  }
+
+  handleClick () {
+    console.log("handleClick")
+
+    let data = {
+      id: this.state.id,
+      city: this.state.city
+    };
+    this.reqAttend(data);
+  }
+
   render () {
     return (
       <div className="attendance">
         <h6>Attending</h6>
-        <a className="loc-btn">4</a>
+        <a className="loc-btn" href="#" onClick={this.handleClick}>{this.state.attendance}</a>
       </div>
     )
   }

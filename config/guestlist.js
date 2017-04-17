@@ -4,6 +4,8 @@ var exports = module.exports = {};
 exports.addOrRemoveUser = function (barId, barCity, user, callback) {
   var userName = user;
   var guestListLength;
+
+  console.log(barId, barCity, user, "add or removeuser details");
   console.log("addOrRemoveUser is being run now!!!");
 
    Location.findOne({id: barId}, function (err, info) {

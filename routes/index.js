@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var jwt = require('jsonwebtoken');
 
 var Location = require('../config/guestlist');
 var ySearch = require('../config/yelp');
@@ -58,7 +59,7 @@ router.get('/', function(req, res, next) {
               }
           });
     } else {
-    res.render('index', { name: "friend", familiarName: "pal" });
+    res.render('index');
   }
 });
 
@@ -72,7 +73,6 @@ router.get('/*', function (req, res) {
 router.post('/search/', function (req, res) {
 
       let location = req.body.city;
-      console.log(location, "this is location")
       req.session.lastSearch = location;
 
       ySearch.newLocalSearch(location, function (err, data) {
@@ -80,76 +80,74 @@ router.post('/search/', function (req, res) {
           console.log(err, "here is the error");
           res.send(err);
         } else {
-          console.log("there was no error, querying database")
             // DATABASE QUERY IF SUCCESSFULL
             Location.queryGuestList(location, data, function (err, query) {
                 if (err) {
                   console.log(err);
                   res.send("there was an error");
                 }
-                  console.log(query, "this is query");
                   res.status(200).json(query);
               });
             }
         });
   });
-/*
-  router.get('/dashboard', function (req, res) {
-    if (req.user) {
-      res.render('dashboard', {name: req.user.username});
-    } else {
-      res.render('dashboard', {name: "no balls"});
-    }
-  });
 
-  router.get('/login', function (req, res) {
-    res.render('login');
-  });
-
-  router.post('/login', passport.authenticate('local-login', { successRedirect: '/',
-                                                    failureRedirect: '/login' }));
-
-
-  router.post('/register', passport.authenticate('local-signup', { successRedirect: '/',
-                                                    failureRedirect: '/register' }));
-
-  router.get('/register', function (req, res) {
-    res.render('register');
+  router.post('/login', function(req, res, next) {
+    passport.authenticate('local-login', function (err, user) {
+      if (err) {
+        console.log(err, "login error");
+      }
+      if (!user) {
+        console.log("user details is false");
+      } else {
+        req.session.user = user.username;
+        let sig = jwt.sign({id: user.username}, "keyboard cat");
+        res.status(200)
+        .cookie('token', sig, { expires: new Date(Date.now() + 900000)})
+        .send('It was a success');
+      }
+    })(req, res, next);
   });
 
 
 
-  // AJAX REQUEST
+  // Adding and Removing attendance
   router.post('/check', function (req, res) {
-    let id = req.body.bar;
-    let city = req.body.city;
+    let token = jwt.verify(req.cookies.token, 'keyboard cat');
 
-    console.log(req.body, "this is check req")
+    if(token.id === req.session.user) {
+      let id = req.body.id;
+      let city = req.body.city;
+      let user = req.session.user;
 
-    if (req.user) {
-    var user = req.user.username;
+      Location.addOrRemoveUser(id, city, user, function (err, msg, result) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("there was a server error");
+          }
+          else {
+            res.status(200).send({guestList: result});
+          }
+      });
 
-          Location.addOrRemoveUser(id, city, user, function (err, msg, result) {
-              if (err) {
-                console.log(err);
-                res.status(500).send("there was a server error");
-              }
-              else {
-                res.status(200).send({guestList: result});
-              }
-          });
-     } else {
-        res.status(200).send({status: "works?"});
-     }
+    } else {
+          res.status(200).send({status: "bad id"});
+       }
+  });
 
+
+router.post('/logout', function (req, res) {
+  console.log(req.session.user, "this is req.session.user");
+  if (req.session.user) {
+    delete req.session.user
+    res.clearCookie('token');
+    req.logout();
+    res.status(200).send('logged out');
+  } else {
+    res.status(200).send('not loggedin')
+  }
 });
 
-router.get('/logout', function (req, res) {
-  req.logout();
-  res.redirect('/');
-});
-
-*/
 
 module.exports = router;
 
