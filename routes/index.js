@@ -7,60 +7,11 @@ var jwt = require('jsonwebtoken');
 var Location = require('../config/guestlist');
 var ySearch = require('../config/yelp');
 var User = require('../models/users');
+var Utils = require('../utils/utils');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var location;
-  if (req.session.lastSearch && !req.user) {
-    console.log("session does exist");
-    location = req.session.lastSearch;
-    console.log(location);
-    ySearch.newLocalSearch(location, function (err, data) {
-      if (err) {
-        res.redirect("/")
-      } else {
-          // DATABASE QUERY IF SUCCESSFULL
-          Location.queryGuestList(location, data, function (err, query) {
-              if (err) {
-                console.log(err);
-                res.send("there was an error");
-              }
-                // Combine MONGODB with YELP API data
-                var newData = handleBusiness(query);
-                res.render("index", {object: newData});
-            });
-          }
-      });
-    } else if (req.user) {
-        if(req.user.location) {
-          location = req.user.location;
-        } else if (req.session.lastSearch){
-          User.update({username: req.user.username}, {$set: {location: req.session.lastSearch} }, function (err, data) {
-            if (err) {
-              console.log(err);
-            }
-            return data;
-          });
-        }
-        ySearch.newLocalSearch(location, function (err, data) {
-          if (err) {
-            res.redirect("/")
-          } else {
-              // DATABASE QUERY IF SUCCESSFULL
-              Location.queryGuestList(location, data, function (err, query) {
-                  if (err) {
-                    console.log(err);
-                    res.send("there was an error");
-                  }
-                  var newData = handleBusiness(query);
-                  console.log(newData);
-                    res.render("index", {object: newData});
-                });
-              }
-          });
-    } else {
     res.render('index');
-  }
 });
 
 router.get('/*', function (req, res) {
@@ -71,20 +22,20 @@ router.get('/*', function (req, res) {
 
 // AJAX request
 router.post('/search/', function (req, res) {
-
+      console.log(req.body, "this is search, req body")
       let location = req.body.city;
       req.session.lastSearch = location;
 
       ySearch.newLocalSearch(location, function (err, data) {
         if (err) {
           console.log(err, "here is the error");
-          res.send(err);
+          res.status(200).send(err);
         } else {
             // DATABASE QUERY IF SUCCESSFULL
             Location.queryGuestList(location, data, function (err, query) {
                 if (err) {
                   console.log(err);
-                  res.send("there was an error");
+                  res.status(200).send("there was an error");
                 }
                   res.status(200).json(query);
               });
@@ -148,24 +99,35 @@ router.post('/logout', function (req, res) {
   }
 });
 
+router.post('/user', function (req, res) {
+
+  if (!req.cookies.token) {
+    console.log("no cookie")
+    return res.status(200).send({user: false});
+  }
+
+  if (req.cookies.token) {
+    console.log("we have cookie")
+    let token = jwt.verify(req.cookies.token, 'keyboard cat');
+    if (token.id === req.session.user) {
+      return res.status(200).send({user: req.session.user});
+    } else {
+      return res.status(200).send({user: false});
+    }
+  }
+});
+
+
+router.post('/query', function (req, res) {
+
+  console.log("req.session.lastSearch", req.session.lastSearch)
+
+    if (req.session.lastSearch ) {
+      return res.status(200).send({location: req.session.lastSearch})
+    } else {
+      return res.status(200).send({location: ''})
+    }
+
+});
 
 module.exports = router;
-
-
-function handleBusiness (query) {
-
-  var newArray = [];
-
-  query.businesses.forEach(function (element) {
-    var obj = {};
-    obj.name = element.name;
-    obj.rating = element.rating;
-    obj.location = element.location.city;
-    obj.text = element.snippet_text;
-    obj.id = element.id;
-    obj.img = element['image_url'];
-    obj.att = element.guestListLength;
-    newArray.push(obj);
-  })
-    return newArray;
-}

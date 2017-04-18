@@ -13,7 +13,37 @@ class App extends React.Component {
 
   state = {
     query: "",
-    isLoggedIn: false
+    isLoggedIn: false,
+    user: ""
+  }
+
+  componentWillMount () {
+    this.sessionCheck();
+    this.queryCheck();
+  }
+
+  sessionCheck () {
+    let self = this;
+    axios.post('/user')
+      .then(function (res) {
+        if (res.data.user !== false) {
+          self.setState({
+            isLoggedIn: true,
+            user: res.data.user
+          });
+        }
+      });
+  }
+
+  queryCheck () {
+    let self = this;
+    axios.post('/query')
+      .then(function (res) {
+        console.log("this is queryCheck res", res);
+        self.setState({
+          query: res.data.location
+        })
+      })
   }
 
   handleLogin (e) {
@@ -35,7 +65,7 @@ class App extends React.Component {
       <Router>
         <div className="main-container">
           <Menu  />
-          <Main LoggedIn={this.state.isLoggedIn} login={this.handleLogin} />
+          <Main query={this.state.query} LoggedIn={this.state.isLoggedIn} login={this.handleLogin} />
         </div>
       </Router>
     )

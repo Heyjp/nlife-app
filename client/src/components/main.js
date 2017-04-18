@@ -11,9 +11,16 @@ class DataContainer extends React.Component {
     this.queryServer = this.queryServer.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    let self = this;
+    console.log(props, "this is props on data container");
+    if (props.query.length > 0) {
+      this.queryServer(props.query);
+    }
+  }
 
   state = {
-    query: "",
+    savedQuery: "",
     locations: []
   }
 
@@ -31,6 +38,8 @@ class DataContainer extends React.Component {
           locations: res.data.businesses
         })
       })
+    }).catch(function (err) {
+      console.log(err, "queryServer error");
     })
   }
 
@@ -41,7 +50,7 @@ class DataContainer extends React.Component {
         <Title />
         <Route exact path="/" render={() => (
           <div className="search-wrapper">
-            <SearchForm search={this.queryServer} />
+            <SearchForm loc={this.props.loc} search={this.queryServer} />
             <ListContainer LoggedIn={this.props.LoggedIn} locations={this.state.locations} />
           </div>
         )} />
@@ -63,6 +72,10 @@ class SearchForm extends React.Component {
   }
   state = {
     location: ""
+  }
+
+  componentWillMount() {
+    console.log("moose");
   }
 
   handleChange (e) {
