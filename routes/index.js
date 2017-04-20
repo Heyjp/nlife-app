@@ -18,8 +18,6 @@ router.get('/*', function (req, res) {
   res.redirect('/');
 });
 
-
-
 // AJAX request
 router.post('/search/', function (req, res) {
       console.log(req.body, "this is search, req body")
@@ -122,7 +120,7 @@ router.post('/query', function (req, res) {
 
   console.log("req.session.lastSearch", req.session.lastSearch)
 
-    if (req.session.lastSearch ) {
+    if (req.session.lastSearch && req.session.user) {
       return res.status(200).send({location: req.session.lastSearch})
     } else {
       return res.status(200).send({location: ''})

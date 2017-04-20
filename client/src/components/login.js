@@ -1,25 +1,8 @@
 import React from 'react'
 
 import {Redirect} from 'react-router-dom'
-/*
 
-export const Login = () => (
-  <div>
-    <h1>Login</h1>
-    <input type="text" placeholder="username" name="username" />
-    <input type="password" placeholder="password" name="password" />
-    <a href="#" className="btn">Submit</a>
-  </div>
-)
-*/
-
-export const Logout = () => (
-  <div>
-    <h1>Logout</h1>
-  </div>
-)
-
-export class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,12 +37,12 @@ export class Login extends React.Component {
   }
 
   render () {
+
     if (this.props.LoggedIn) {
       return (
         <Redirect to={{pathname: '/'}} />
       )
     }
-
 
     return (
       <div className="log-box">
@@ -92,3 +75,5 @@ export class Login extends React.Component {
     )
   }
 }
+
+export default Login

@@ -1,26 +1,59 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
 class MenuContainer extends React.Component {
 
-  handleClick (e) {
-    e.preventDefault();
+    constructor(props) {
+      super(props);
 
-    axios.post('/logout').then(function (res) {
-      console.log(res, "logout res");
-    });
-  }
+      this.handleClick = this.handleClick.bind(this);
+    }
 
 
-  render () {
+    state = {
+      loggedIn: false
+    }
+
+    componentWillReceiveProps (props) {
+      console.log(props, "menu container props");
+      this.setState({
+        loggedIn: props.isLoggedIn
+      })
+    }
+
+    handleClick (e) {
+      let self = this;
+      e.preventDefault();
+      axios.post('/logout').then(function (res) {
+        console.log(res, "logout res");
+        self.props.logout();
+      });
+    }
+
+    render () {
+      let loginStatus = this.state.loggedIn ? (
+          <ul>
+            <li className="btn"><a href='#' onClick={this.handleClick}>Logout</a></li>
+          </ul>
+        ) : (
+          <ul>
+            <li className="btn"><Link to="/login">Login</Link></li>
+          </ul>
+      )
+
+    let loginNotice = this.state.loggedIn ? (
+        <div className="login-menu">
+          <p>Logged in as Sponjeh</p>
+        </div>
+      ) : (
+        ""
+      )
     return (
     <div className="menu-container">
       <div className="menu">
-        <ul>
-          <li className="btn"><Link to="/login">Login</Link></li>
-          <li className="btn"><a href='#' onClick={this.handleClick}>Logout</a></li>
-        </ul>
+        {loginStatus}
       </div>
+        {loginNotice}
     </div>
     )
   }

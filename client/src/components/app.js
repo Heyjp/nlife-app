@@ -9,6 +9,7 @@ class App extends React.Component {
     super(props)
 
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   state = {
@@ -59,12 +60,18 @@ class App extends React.Component {
     })
   }
 
+  handleLogout () {
+    this.setState({
+      isLoggedIn: false
+    })
+  }
+
   render () {
 
     return (
       <Router>
         <div className="main-container">
-          <Menu  />
+          <Menu  logout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Main query={this.state.query} LoggedIn={this.state.isLoggedIn} login={this.handleLogin} />
         </div>
       </Router>
