@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-require('dotenv').config()
-var express = require('express');
-=======
 require('dotenv').config();
 
 var express = require('express');
 var app = express();
->>>>>>> new-branch
 var passport = require('passport');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -15,17 +10,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
-<<<<<<< HEAD
-var session = require('express-session');
-var mongoose = require('mongoose');
-
-=======
 var session = require('cookie-session');
 var mongoose = require('mongoose');
 
 var jwt = require('jsonwebtoken');
 
->>>>>>> new-branch
 var config = require('./config/config');
 
 mongoose.connect(config.url);
@@ -34,31 +23,11 @@ require('./config/passport')(passport);
 
 var routes = require('./routes/index');
 
-<<<<<<< HEAD
-var app = express();
-
-=======
->>>>>>> new-branch
 // assign the dust engine to .dust files
 app.engine('dust', cons.dust);
 
 app.use(logger('dev'));
 app.use(cookieParser());
-<<<<<<< HEAD
-app.set('view engine', 'dust');
-app.set('views', __dirname + '/views');
-app.use("/public", express.static(path.join(__dirname, 'public')));
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-
-=======
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -76,28 +45,9 @@ app.set('views', __dirname + '/views');
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
->>>>>>> new-branch
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-app.use(function(req, res, next){
-  if (req.user) {
-    console.log("We have a user!!!");
-<<<<<<< HEAD
-    res.locals.username = req.user.username;
-=======
->>>>>>> new-branch
-  }
-  next();
-});
-
-<<<<<<< HEAD
-app.use('/', routes);
-
-
-
-=======
->>>>>>> new-branch
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

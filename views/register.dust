@@ -1,8 +1,0 @@
-
-<form name="login" action="/register" method="post">
-    <label for="username">username</label>
-    <input type="text" name="username" placeholder="yourname" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" placeholder="password" required>
-    <input type="submit" value="Login">
-</form>

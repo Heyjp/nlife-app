@@ -20,23 +20,19 @@ module.exports = function (passport) {
     },
       function(req, username, password, done) {
         User.findOne({ username: username }, function(err, user) {
-<<<<<<< HEAD
-          if (err) { return done(err); }
-=======
+
           if (err) {
             console.log(err, "this is err in login")
-            return done(err); }
->>>>>>> new-branch
+            return done(err);
+          }
+
           if (!user) {
             return done(null, false);
           }
           if (!isValidPassword(user, password)) {
             return done(null, false);
           }
-<<<<<<< HEAD
-=======
 
->>>>>>> new-branch
           return done(null, user);
         });
       }
@@ -68,11 +64,9 @@ passport.use('local-signup', new LocalStrategy({
             }
 
 					  newUser.save();
-<<<<<<< HEAD
+
             return done(null, newUser);
-=======
             done(null, newUser);
->>>>>>> new-branch
 					}
 				});
 			};

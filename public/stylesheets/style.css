@@ -1,46 +1,20 @@
-<<<<<<< HEAD
-
-@import url('https://fonts.googleapis.com/css?family=Fascinate+Inline|Oxygen:300,400,700');
-@import url('https://fonts.googleapis.com/css?family=Stardos+Stencil');
-=======
 @import url('https://fonts.googleapis.com/css?family=Fascinate+Inline|Oxygen:300,400,700');
 @import url('https://fonts.googleapis.com/css?family=Stardos+Stencil');
 @import url('https://fonts.googleapis.com/css?family=Exo+2');
->>>>>>> new-branch
 
 body {
   padding: 0px;
   margin: 0px;
   font-family: 'Oxygen', sans-serif;
-<<<<<<< HEAD
-  overflow: hidden;
-=======
   height: 100vh;
   overflow: hidden;
   background-color: #fafafa;
   background-repeat: no-repeat;
   background-size: cover;
->>>>>>> new-branch
 }
 
 .main-container {
   width: 100%;
-<<<<<<< HEAD
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-}
-
-.menu-container {
-  width: 25%;
-  height: 100%;
-  border: 2px solid black;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column-reverse;
-=======
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -52,7 +26,6 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
->>>>>>> new-branch
   -webkit-box-shadow: 7px 0px 9px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 7px 0px 9px 0px rgba(0,0,0,0.75);
   box-shadow: 7px 0px 9px 0px rgba(0,0,0,0.75);
@@ -62,11 +35,7 @@ body {
 
 .menu {
   width: 100%;
-<<<<<<< HEAD
-  margin: 0px;
-=======
   margin-top: 50px;
->>>>>>> new-branch
 }
 
 .menu ul {
@@ -82,20 +51,14 @@ body {
 }
 
 .data-container {
-<<<<<<< HEAD
-  height: 100%;
-=======
   max-height: inherit;
   box-sizing: border-box;
->>>>>>> new-branch
   width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-<<<<<<< HEAD
-=======
 .search-wrapper {
   width: 100%;
   max-height: inherit;
@@ -103,36 +66,11 @@ body {
   box-sizing: border-box;
 }
 
->>>>>>> new-branch
 .btn {
   padding: 10px 15px;
   margin: 5px 0px;
   color: white;
   background-color: black;
-<<<<<<< HEAD
-  border: 2px solid white;
-}
-
-.list-container {
-  width: 100%;
-}
-
-.list-container li  {
-  list-style: none;
-  margin: 5px 0px;
-}
-
-.list-container li:last-child {
-  font-weight: bold;
-}
-
-.list-container h1 {
-  margin: 0px;
-  font-weight: 300;
-}
-
-.title {
-=======
   border: 1px solid white;
   color: white;
 }
@@ -144,7 +82,6 @@ body {
 
 .title {
   height: 20%;
->>>>>>> new-branch
   margin: 30px 0px;
   color: #2c3e50;
 }
@@ -163,49 +100,23 @@ body {
   margin: 0px;
 }
 
-<<<<<<< HEAD
-.form {
-  margin: 10px 0px;
-}
-
-
-.list-container {
-  overflow: scroll;
-}
-
-=======
->>>>>>> new-branch
 .location-display {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-<<<<<<< HEAD
-=======
   margin-bottom: 20px;
->>>>>>> new-branch
   font-weight: 200;
   font-size: 1em;
 }
 
 hr {
-<<<<<<< HEAD
-  width: 80%;
-=======
   width: 100%;
   margin: 50px 0px;
->>>>>>> new-branch
   background-color: black;
 }
 
 .location-container {
-<<<<<<< HEAD
-  display: flex;
-  flex-direction: row;
   width: 75%;
-
-=======
-  width: 75%;
->>>>>>> new-branch
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -238,8 +149,6 @@ hr {
   flex-direction: column;
   width: 40%;
 }
-<<<<<<< HEAD
-=======
 
 .list-container {
   max-height: 75%;
@@ -365,4 +274,3 @@ form #search {
 form {
   text-align: center;
 }
->>>>>>> new-branch
