@@ -8,7 +8,6 @@ class LoginContainer extends React.Component {
   }
 
   render () {
-    console.log("this is props on logincontainer render", this.props)
     if (this.props.LoggedIn) {
       return (
         <Redirect to={{pathname: '/'}} />
@@ -53,14 +52,12 @@ class Signup extends React.Component {
   }
 
   handlePass (e) {
-    console.log(e.target.value, "this is e")
     this.setState({
       password: e.target.value
     })
   }
 
   handleSubmit () {
-    console.log(this.props, "this.props on signup")
     let details = {
       username: this.state.username,
       password: this.state.password,
@@ -107,14 +104,12 @@ class Login extends React.Component {
   }
 
   handlePass (e) {
-    console.log(e.target.value, "this is e")
     this.setState({
       password: e.target.value
     })
   }
 
   handleSubmit () {
-    console.log(this.props, "this.props on login")
 
     let details = {
       username: this.state.username,

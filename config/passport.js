@@ -29,7 +29,7 @@ module.exports = function (passport) {
           if (!isValidPassword(user, password)) {
             return done(null, false);
           }
-          
+
           return done(null, user);
         });
       }
@@ -61,7 +61,7 @@ passport.use('local-signup', new LocalStrategy({
             }
 
 					  newUser.save();
-            done(null, {user: newUser});
+            done(null, newUser);
 					}
 				});
 			};
@@ -70,7 +70,6 @@ passport.use('local-signup', new LocalStrategy({
 	));
 
 }
-
 
 var isValidPassword = function(user, password){
   return bcrypt.compareSync(password, user.password);

@@ -24,7 +24,8 @@ class DataContainer extends React.Component {
   }
 
   state = {
-    savedQuery: "",
+    savedQuery: this.props.query,
+    query: "",
     locations: []
   }
 
@@ -34,16 +35,15 @@ class DataContainer extends React.Component {
     axios.post('/search', {
       city: location
     }).then(function (res) {
-      console.log(res, "queryServer response")
       self.setState({
         locations: []
       }, function () {
         self.setState({
+          query: location,
           locations: res.data.businesses
         })
       })
     }).catch(function (err) {
-      console.log(err, "queryServer error");
     })
   }
 
@@ -59,7 +59,7 @@ class DataContainer extends React.Component {
             {
               this.state.locations.length > 0 ? (
                 <div className="location-display">
-                  <p>Results for </p>
+                  <p>Results for {this.state.savedQuery || this.state.query}</p>
                 </div>
               ) : (
                 ""

@@ -5,15 +5,11 @@ exports.addOrRemoveUser = function (barId, barCity, user, callback) {
   var userName = user;
   var guestListLength;
 
-  console.log(barId, barCity, user, "add or removeuser details");
-  console.log("addOrRemoveUser is being run now!!!");
-
    Location.findOne({id: barId}, function (err, info) {
      if (err) {
        console.log(err);
      }
      if (!info) {
-       console.log("No entry was found, creating a new item for the DB");
        var location = new Location();
        location.location = barCity,
        location.id = barId,
@@ -26,7 +22,6 @@ exports.addOrRemoveUser = function (barId, barCity, user, callback) {
        callback(null, "successfull added location & user", guestListLength);
      } else if (info) {
              if (info.guestlist.indexOf(userName) === -1) {
-               console.log("pushing", userName);
                Location.findOneAndUpdate({id: barId}, {$push: { guestlist: userName } }, {new: true}, function (err, doc) {
                  guestListLength = doc.guestlist.length;
                  if (err) {
@@ -35,7 +30,6 @@ exports.addOrRemoveUser = function (barId, barCity, user, callback) {
                  callback(null, "User added to the guestList", guestListLength);
                });
            } else if (info.guestlist.indexOf(userName) !== -1) {
-             console.log("pulling", userName);
              Location.findOneAndUpdate({id: barId}, {$pull: { guestlist: userName } }, {new: true}, function (err, doc) {
                guestListLength = doc.guestlist.length;
                if (err) {

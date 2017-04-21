@@ -27,7 +27,6 @@ class Attendance extends React.Component {
   }
 
   handleClick () {
-    console.log("handleClick")
 
     let data = {
       id: this.state.id,

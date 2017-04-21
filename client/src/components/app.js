@@ -29,8 +29,8 @@ class App extends React.Component {
       .then(function (res) {
         if (res.data.user !== false) {
           self.setState({
+            user: res.data.user,
             isLoggedIn: true,
-            user: res.data.user
           });
         }
       });
@@ -40,7 +40,6 @@ class App extends React.Component {
     let self = this;
     axios.post('/query')
       .then(function (res) {
-        console.log("this is queryCheck res", res);
         self.setState({
           query: res.data.location
         })
@@ -48,14 +47,13 @@ class App extends React.Component {
   }
 
   handleLogin (e) {
-    console.log("handleLogin called", e);
     let self = this;
     axios.post(`/${e.route}`, {
       username: e.username,
       password: e.password
     }).then(function (res) {
-      console.log("returning");
       self.setState({
+        user: res.data,
         isLoggedIn: true
       })
     })
@@ -63,7 +61,8 @@ class App extends React.Component {
 
   handleLogout () {
     this.setState({
-      isLoggedIn: false
+      isLoggedIn: false,
+      user: ""
     })
   }
 
@@ -72,7 +71,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="main-container">
-          <Menu  logout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
+          <Menu  user={this.state.user} logout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Main query={this.state.query} LoggedIn={this.state.isLoggedIn} handleAuth={this.handleLogin} />
         </div>
       </Router>

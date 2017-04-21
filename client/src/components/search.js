@@ -11,12 +11,9 @@ class SearchForm extends React.Component {
     location: ""
   }
 
-  componentWillMount() {
-    console.log("moose");
-  }
+
 
   handleChange (e) {
-    console.log("handling change", e.target.value)
     this.setState({
       location: e.target.value
     })
@@ -24,8 +21,6 @@ class SearchForm extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    console.log("handling submit")
-    console.log("this.props.search in handleSubmit", this.props.search)
     this.props.search(this.state.location)
   }
 

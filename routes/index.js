@@ -53,12 +53,29 @@ router.post('/search/', function (req, res) {
         let sig = jwt.sign({id: user.username}, "keyboard cat");
         res.status(200)
         .cookie('token', sig, { expires: new Date(Date.now() + 900000)})
-        .send('It was a success');
+        .send(user.username);
       }
     })(req, res, next);
   });
 
+  router.post('/signup', function(req, res, next) {
+    passport.authenticate('local-signup', function (err, user) {
+      if (err) {
+        console.log(err, "signup error");
+      }
+      if (!user) {
+        console.log("user already exists is false");
+      } else {
+        console.log("successful signup", user)
+        req.session.user = user.username;
 
+        let sig = jwt.sign({id: user.username}, "keyboard cat");
+        res.status(200)
+        .cookie('token', sig, { expires: new Date(Date.now() + 900000)})
+        .send(user.username);
+      }
+    })(req, res, next);
+  });
 
   // Adding and Removing attendance
   router.post('/check', function (req, res) {

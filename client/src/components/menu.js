@@ -9,13 +9,11 @@ class MenuContainer extends React.Component {
       this.handleClick = this.handleClick.bind(this);
     }
 
-
     state = {
       loggedIn: false
     }
 
     componentWillReceiveProps (props) {
-      console.log(props, "menu container props");
       this.setState({
         loggedIn: props.isLoggedIn
       })
@@ -25,7 +23,6 @@ class MenuContainer extends React.Component {
       let self = this;
       e.preventDefault();
       axios.post('/logout').then(function (res) {
-        console.log(res, "logout res");
         self.props.logout();
       });
     }
@@ -44,7 +41,7 @@ class MenuContainer extends React.Component {
 
     let loginNotice = this.state.loggedIn ? (
         <div className="login-menu">
-          <p>Logged in as Sponjeh</p>
+          <p>Logged in as {this.props.user}</p>
         </div>
       ) : (
         ""
