@@ -4,14 +4,20 @@ var exports = module.exports = {};
 exports.addOrRemoveUser = function (barId, barCity, user, callback) {
   var userName = user;
   var guestListLength;
+<<<<<<< HEAD
   console.log("addOrRemoveUser is being run now!!!");
+=======
+>>>>>>> new-branch
 
    Location.findOne({id: barId}, function (err, info) {
      if (err) {
        console.log(err);
      }
      if (!info) {
+<<<<<<< HEAD
        console.log("No entry was found, creating a new item for the DB");
+=======
+>>>>>>> new-branch
        var location = new Location();
        location.location = barCity,
        location.id = barId,
@@ -24,7 +30,10 @@ exports.addOrRemoveUser = function (barId, barCity, user, callback) {
        callback(null, "successfull added location & user", guestListLength);
      } else if (info) {
              if (info.guestlist.indexOf(userName) === -1) {
+<<<<<<< HEAD
                console.log("pushing", userName);
+=======
+>>>>>>> new-branch
                Location.findOneAndUpdate({id: barId}, {$push: { guestlist: userName } }, {new: true}, function (err, doc) {
                  guestListLength = doc.guestlist.length;
                  if (err) {
@@ -33,7 +42,10 @@ exports.addOrRemoveUser = function (barId, barCity, user, callback) {
                  callback(null, "User added to the guestList", guestListLength);
                });
            } else if (info.guestlist.indexOf(userName) !== -1) {
+<<<<<<< HEAD
              console.log("pulling", userName);
+=======
+>>>>>>> new-branch
              Location.findOneAndUpdate({id: barId}, {$pull: { guestlist: userName } }, {new: true}, function (err, doc) {
                guestListLength = doc.guestlist.length;
                if (err) {
