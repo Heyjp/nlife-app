@@ -38,6 +38,7 @@ class MenuContainer extends React.Component {
         ) : (
           <ul>
             <li className="btn"><Link to="/login">Login</Link></li>
+            <li className="btn"><Link to="/signup">Create Account</Link></li>
           </ul>
       )
 

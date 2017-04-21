@@ -2,7 +2,36 @@ import React from 'react'
 
 import {Redirect} from 'react-router-dom'
 
-class Login extends React.Component {
+class LoginContainer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render () {
+    console.log("this is props on logincontainer render", this.props)
+    if (this.props.LoggedIn) {
+      return (
+        <Redirect to={{pathname: '/'}} />
+      )
+    }
+
+    return (
+      <div className="log-box">
+          {
+            this.props.route === "signup" ? (
+              <Signup route={this.props.route} Login={this.props.Login}/>
+            ) : (
+              <Login route={this.props.route} Login={this.props.Login} />
+            )
+          }
+      </div>
+    )
+  }
+}
+
+
+class Signup extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -10,9 +39,11 @@ class Login extends React.Component {
     this.handlePass = this.handlePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   state = {
     username: "",
-    password: ""
+    password: "",
+    route: this.props.route
   }
 
   handleUser (e) {
@@ -29,51 +60,83 @@ class Login extends React.Component {
   }
 
   handleSubmit () {
+    console.log(this.props, "this.props on signup")
     let details = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      route: this.state.route
     }
-    this.props.login(details);
+    this.props.Login(details);
   }
 
   render () {
-
-    if (this.props.LoggedIn) {
-      return (
-        <Redirect to={{pathname: '/'}} />
-      )
-    }
-
     return (
-      <div className="log-box">
-        <div className="menu">
-          <ul>
-            <li>Login</li>
-            <li>Signup</li>
-          </ul>
-        </div>
-        <div className="form-wrapper">
-          <div className="form-header">
-            <span>Enter your email and password <strong>to sign in</strong></span>
-          </div>
-          <form>
-            <div className="login">
-              <label />
-              <input type="text" placeholder="username" name="username" value={this.state.username} onChange={this.handleUser}/>
-            </div>
-            <div className="login">
-              <label />
-              <input type="password" placeholder="password" name="password" value={this.state.password} onChange={this.handlePass} />
-            </div>
-            <div>
-                <a className="btn" href="#" onClick={this.handleSubmit}>Log in</a>
-                <span>Forgot Your password</span>
-            </div>
-          </form>
-        </div>
-      </div>
+      <form id="sign-up-form">
+        <fieldset>
+          <h4>Create Your Account</h4>
+          <input type="text" placeholder="Username" onChange={this.handleUser}/><br/>
+          <input type="password" placeholder="Password" onChange={this.handlePass}/><br/>
+          <input className="action-button" type="button" value="Create Account" onClick={this.handleSubmit}/>
+        </fieldset>
+      </form>
+    )
+  }
+
+}
+
+class Login extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleUser = this.handleUser.bind(this);
+    this.handlePass = this.handlePass.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state = {
+    username: "",
+    password: "",
+    route: this.props.route
+  }
+
+  handleUser (e) {
+    this.setState({
+      username: e.target.value
+    })
+  }
+
+  handlePass (e) {
+    console.log(e.target.value, "this is e")
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  handleSubmit () {
+    console.log(this.props, "this.props on login")
+
+    let details = {
+      username: this.state.username,
+      password: this.state.password,
+      route: this.props.route
+    }
+    this.props.Login(details);
+  }
+
+  render () {
+    return (
+      <form id="sign-up-form">
+        <fieldset>
+          <h4>Login</h4>
+          <input type="text" placeholder="Username" onChange={this.handleUser}/><br/>
+          <input type="password" placeholder="Password" onChange={this.handlePass}/><br/>
+          <input className="action-button" type="button" value="Login" onClick={this.handleSubmit}/>
+        </fieldset>
+      </form>
     )
   }
 }
 
-export default Login
+
+export default LoginContainer

@@ -48,8 +48,9 @@ class App extends React.Component {
   }
 
   handleLogin (e) {
+    console.log("handleLogin called", e);
     let self = this;
-    axios.post('/login', {
+    axios.post(`/${e.route}`, {
       username: e.username,
       password: e.password
     }).then(function (res) {
@@ -72,7 +73,7 @@ class App extends React.Component {
       <Router>
         <div className="main-container">
           <Menu  logout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
-          <Main query={this.state.query} LoggedIn={this.state.isLoggedIn} login={this.handleLogin} />
+          <Main query={this.state.query} LoggedIn={this.state.isLoggedIn} handleAuth={this.handleLogin} />
         </div>
       </Router>
     )

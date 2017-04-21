@@ -33,7 +33,7 @@ class SearchForm extends React.Component {
 
     return (
       <div className="form" >
-        <form onSubmit={this.handleSubmit}>
+        <form id="search" onSubmit={this.handleSubmit}>
           <input type="text" name="" value={this.state.location} placeholder="Enter a city" onChange={this.handleChange}/>
           <input className="hidden" type="submit"  />
         </form>
@@ -42,4 +42,4 @@ class SearchForm extends React.Component {
   }
 }
 
-export default SearchForm 
+export default SearchForm
