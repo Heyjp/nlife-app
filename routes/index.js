@@ -21,7 +21,6 @@ router.get('/*', function (req, res) {
 
 // AJAX request
 router.post('/search/', function (req, res) {
-      console.log(req.body, "this is search, req body")
       let location = req.body.city;
       req.session.lastSearch = location;
 
@@ -68,7 +67,6 @@ router.post('/search/', function (req, res) {
       if (!user) {
         console.log("user already exists is false");
       } else {
-        console.log("successful signup", user)
         req.session.user = user.username;
 
         let sig = jwt.sign({id: user.username}, "keyboard cat");
@@ -105,7 +103,6 @@ router.post('/search/', function (req, res) {
 
 
 router.post('/logout', function (req, res) {
-  console.log(req.session.user, "this is req.session.user");
   if (req.session.user) {
     delete req.session.user
     res.clearCookie('token');
@@ -119,12 +116,10 @@ router.post('/logout', function (req, res) {
 router.post('/user', function (req, res) {
 
   if (!req.cookies.token) {
-    console.log("no cookie")
     return res.status(200).send({user: false});
   }
 
   if (req.cookies.token) {
-    console.log("we have cookie")
     let token = jwt.verify(req.cookies.token, 'keyboard cat');
     if (token.id === req.session.user) {
       return res.status(200).send({user: req.session.user});
@@ -137,7 +132,6 @@ router.post('/user', function (req, res) {
 
 router.post('/query', function (req, res) {
 
-  console.log("req.session.lastSearch", req.session.lastSearch)
 
     if (req.session.lastSearch && req.session.user) {
       return res.status(200).send({location: req.session.lastSearch})
