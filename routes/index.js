@@ -132,7 +132,6 @@ router.post('/user', function (req, res) {
 
 router.post('/query', function (req, res) {
 
-
     if (req.session.lastSearch && req.session.user) {
       return res.status(200).send({location: req.session.lastSearch})
     } else {
