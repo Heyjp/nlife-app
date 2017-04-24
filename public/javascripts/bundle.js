@@ -10136,7 +10136,12 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'location' },
-	              _react2.default.createElement(_address2.default, { data: e }),
+	              _react2.default.createElement(_address2.default, {
+	                name: e.name,
+	                address: e.address,
+	                type: e.type,
+	                rating: e.number
+	              }),
 	              _react2.default.createElement(_attendance2.default, { isLoggedIn: _this4.props.LoggedIn, data: e })
 	            ),
 	            _react2.default.createElement('hr', null)
@@ -28665,168 +28670,99 @@
 
 	  function LoginContainer(props) {
 	    (0, _classCallCheck3.default)(this, LoginContainer);
-	    return (0, _possibleConstructorReturn3.default)(this, (LoginContainer.__proto__ || (0, _getPrototypeOf2.default)(LoginContainer)).call(this, props));
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (LoginContainer.__proto__ || (0, _getPrototypeOf2.default)(LoginContainer)).call(this, props));
+
+	    _this.state = {
+	      username: "",
+	      password: "",
+	      route: _this.props.route
+	    };
+
+
+	    _this.handleUser = _this.handleUser.bind(_this);
+	    _this.handlePass = _this.handlePass.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    return _this;
 	  }
 
 	  (0, _createClass3.default)(LoginContainer, [{
+	    key: 'handleUser',
+	    value: function handleUser(e) {
+	      this.setState({
+	        username: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handlePass',
+	    value: function handlePass(e) {
+	      this.setState({
+	        password: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit() {
+	      this.props.Login({
+	        username: this.state.username,
+	        password: this.state.password,
+	        route: this.state.route
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+
 	      if (this.props.LoggedIn) {
 	        return _react2.default.createElement(_reactRouterDom.Redirect, { to: { pathname: '/' } });
 	      }
 
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'log-box' },
-	        this.props.route === "signup" ? _react2.default.createElement(Signup, { route: this.props.route, Login: this.props.Login }) : _react2.default.createElement(Login, { route: this.props.route, Login: this.props.Login })
-	      );
+	      return _react2.default.createElement(Form, {
+	        title: this.state.route,
+	        userInput: this.handleChange,
+	        passInput: this.handlePass,
+	        submit: this.handleSubmit,
+	        user: this.state.user,
+	        pass: this.state.pass
+	      });
 	    }
 	  }]);
 	  return LoginContainer;
 	}(_react2.default.Component);
 
-	var Signup = function (_React$Component2) {
-	  (0, _inherits3.default)(Signup, _React$Component2);
-
-	  function Signup(props) {
-	    (0, _classCallCheck3.default)(this, Signup);
-
-	    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Signup.__proto__ || (0, _getPrototypeOf2.default)(Signup)).call(this, props));
-
-	    _this2.state = {
-	      username: "",
-	      password: "",
-	      route: _this2.props.route
-	    };
-
-
-	    _this2.handleUser = _this2.handleUser.bind(_this2);
-	    _this2.handlePass = _this2.handlePass.bind(_this2);
-	    _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-	    return _this2;
-	  }
-
-	  (0, _createClass3.default)(Signup, [{
-	    key: 'handleUser',
-	    value: function handleUser(e) {
-	      this.setState({
-	        username: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handlePass',
-	    value: function handlePass(e) {
-	      this.setState({
-	        password: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit() {
-	      var details = {
-	        username: this.state.username,
-	        password: this.state.password,
-	        route: this.state.route
-	      };
-	      this.props.Login(details);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { id: 'sign-up-form' },
+	var Form = function Form(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'log-box' },
+	    _react2.default.createElement(
+	      'form',
+	      { id: 'sign-up-form' },
+	      _react2.default.createElement(
+	        'fieldset',
+	        null,
 	        _react2.default.createElement(
-	          'fieldset',
+	          'h4',
 	          null,
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Create Your Account'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Username', onChange: this.handleUser }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.handlePass }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('input', { className: 'action-button', type: 'button', value: 'Create Account', onClick: this.handleSubmit })
-	        )
-	      );
-	    }
-	  }]);
-	  return Signup;
-	}(_react2.default.Component);
+	          props.title
+	        ),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Username', value: props.user, onChange: props.userInput }),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('input', { type: 'password', placeholder: 'Password', value: props.pass, onChange: props.passInput }),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('input', { className: 'action-button', type: 'button', value: 'Login', onClick: props.submit })
+	      )
+	    )
+	  );
+	};
 
-	var Login = function (_React$Component3) {
-	  (0, _inherits3.default)(Login, _React$Component3);
-
-	  function Login(props) {
-	    (0, _classCallCheck3.default)(this, Login);
-
-	    var _this3 = (0, _possibleConstructorReturn3.default)(this, (Login.__proto__ || (0, _getPrototypeOf2.default)(Login)).call(this, props));
-
-	    _this3.state = {
-	      username: "",
-	      password: "",
-	      route: _this3.props.route
-	    };
-
-
-	    _this3.handleUser = _this3.handleUser.bind(_this3);
-	    _this3.handlePass = _this3.handlePass.bind(_this3);
-	    _this3.handleSubmit = _this3.handleSubmit.bind(_this3);
-	    return _this3;
-	  }
-
-	  (0, _createClass3.default)(Login, [{
-	    key: 'handleUser',
-	    value: function handleUser(e) {
-	      this.setState({
-	        username: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handlePass',
-	    value: function handlePass(e) {
-	      this.setState({
-	        password: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit() {
-
-	      var details = {
-	        username: this.state.username,
-	        password: this.state.password,
-	        route: this.props.route
-	      };
-	      this.props.Login(details);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { id: 'sign-up-form' },
-	        _react2.default.createElement(
-	          'fieldset',
-	          null,
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Login'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Username', onChange: this.handleUser }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.handlePass }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('input', { className: 'action-button', type: 'button', value: 'Login', onClick: this.handleSubmit })
-	        )
-	      );
-	    }
-	  }]);
-	  return Login;
-	}(_react2.default.Component);
+	Form.propTypes = {
+	  title: _react2.default.PropTypes.string,
+	  user: _react2.default.PropTypes.string,
+	  pass: _react2.default.PropTypes.string,
+	  userInput: _react2.default.PropTypes.func,
+	  passInput: _react2.default.PropTypes.func,
+	  submit: _react2.default.PropTypes.func
+	};
 
 	exports.default = LoginContainer;
 
@@ -28974,20 +28910,30 @@
 	    key: "render",
 	    value: function render() {
 
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "form" },
-	        _react2.default.createElement(
-	          "form",
-	          { id: "search", onSubmit: this.handleSubmit },
-	          _react2.default.createElement("input", { type: "text", name: "", value: this.state.location, placeholder: "Enter a city", onChange: this.handleChange }),
-	          _react2.default.createElement("input", { className: "hidden", type: "submit" })
-	        )
-	      );
+	      return _react2.default.createElement(Form, { submit: this.handleSubmit, enterLocation: this.handleChange, location: this.state.location });
 	    }
 	  }]);
 	  return SearchForm;
 	}(_react2.default.Component);
+
+	var Form = function Form(props) {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "form" },
+	    _react2.default.createElement(
+	      "form",
+	      { id: "search", onSubmit: props.submit },
+	      _react2.default.createElement("input", { type: "text", name: "", value: props.location, placeholder: "Enter a city", onChange: props.enterLocation }),
+	      _react2.default.createElement("input", { className: "hidden", type: "submit" })
+	    )
+	  );
+	};
+
+	Form.propTypes = {
+	  submit: _react2.default.PropTypes.func,
+	  value: _react2.default.PropTypes.string,
+	  enterLocation: _react2.default.PropTypes.func
+	};
 
 	exports.default = SearchForm;
 
@@ -29001,98 +28947,82 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(76);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(102);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(103);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(107);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(154);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
 	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Address = function (_React$Component) {
-	  (0, _inherits3.default)(Address, _React$Component);
+	/*
+	class Address extends React.Component {
 
-	  function Address() {
-	    var _ref;
-
-	    var _temp, _this, _ret;
-
-	    (0, _classCallCheck3.default)(this, Address);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Address.__proto__ || (0, _getPrototypeOf2.default)(Address)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-	      name: _this.props.data.name,
-	      address: [_this.props.data.location.address[0], ", ", _this.props.data.location.city],
-	      type: _this.props.data.categories.map(function (ele) {
-	        return ele[0] + ", ";
-	      }),
-	      rating: _this.props.data.rating
-	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  state = {
+	    name: this.props.data.name,
+	    address: [this.props.data.location.address[0], ", ", this.props.data.location.city],
+	    type: this.props.data.categories.map((ele) => ele[0] + ", "),
+	    rating: this.props.data.rating
 	  }
 
-	  (0, _createClass3.default)(Address, [{
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "address" },
-	        _react2.default.createElement(
-	          "ul",
-	          null,
-	          _react2.default.createElement(
-	            "li",
-	            null,
-	            _react2.default.createElement(
-	              "h1",
-	              null,
-	              this.state.name
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "li",
-	            null,
-	            this.state.address
-	          ),
-	          _react2.default.createElement(
-	            "li",
-	            null,
-	            this.state.type
-	          ),
-	          _react2.default.createElement(
-	            "li",
-	            null,
-	            this.state.rating,
-	            "*"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	  return Address;
-	}(_react2.default.Component);
 
-	exports.default = Address;
+	  render () {
+	    return (
+	      <div className="address">
+	        <ul>
+	          <li><h1>{this.state.name}</h1></li>
+	          <li>{this.state.address}</li>
+	          <li>{this.state.type}</li>
+	          <li>{this.state.rating}*</li>
+	        </ul>
+	      </div>
+	    )
+	  }
+	}
+	*/
+
+	var AddressList = function AddressList(props) {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "address" },
+	    _react2.default.createElement(
+	      "ul",
+	      null,
+	      _react2.default.createElement(
+	        "li",
+	        null,
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          props.name
+	        )
+	      ),
+	      _react2.default.createElement(
+	        "li",
+	        null,
+	        props.address
+	      ),
+	      _react2.default.createElement(
+	        "li",
+	        null,
+	        props.type
+	      ),
+	      _react2.default.createElement(
+	        "li",
+	        null,
+	        props.rating,
+	        "*"
+	      )
+	    )
+	  );
+	};
+
+	AddressList.propTypes = {
+	  name: _react2.default.PropTypes.string.isRequired,
+	  address: _react2.default.PropTypes.array.isRequired,
+	  type: _react2.default.PropTypes.array.isRequired,
+	  rating: _react2.default.PropTypes.number.isRequired
+	};
+
+	exports.default = AddressList;
 
 /***/ },
 /* 331 */
@@ -29176,24 +29106,40 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'attendance' },
-	        _react2.default.createElement(
-	          'h6',
-	          null,
-	          'Attending'
-	        ),
-	        _react2.default.createElement(
-	          'a',
-	          { className: 'loc-btn', href: '#', onClick: this.handleClick },
-	          this.state.attendance
-	        )
-	      );
+	      return _react2.default.createElement(AttendanceRender, { func: this.handleClick, attendance: this.state.attendance });
 	    }
 	  }]);
 	  return Attendance;
 	}(_react2.default.Component);
+
+	/*
+	<div className="attendance">
+	  <h6>Attending</h6>
+	  <a className="loc-btn" href="#" onClick={this.handleClick}>{this.state.attendance}</a>
+	</div>
+	*/
+
+	var AttendanceRender = function AttendanceRender(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'attendance' },
+	    _react2.default.createElement(
+	      'h6',
+	      null,
+	      'Attending'
+	    ),
+	    _react2.default.createElement(
+	      'a',
+	      { className: 'loc-btn', href: '#', onClick: props.func },
+	      props.attendance
+	    )
+	  );
+	};
+
+	AttendanceRender.propTypes = {
+	  func: _react2.default.PropTypes.func.isRequired,
+	  attendance: _react2.default.PropTypes.number.isRequired
+	};
 
 	exports.default = Attendance;
 

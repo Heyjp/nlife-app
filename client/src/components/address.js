@@ -1,5 +1,6 @@
 import React from 'react';
 
+/*
 class Address extends React.Component {
 
   state = {
@@ -23,5 +24,24 @@ class Address extends React.Component {
     )
   }
 }
+*/
 
-export default Address
+const AddressList = (props) => (
+  <div className="address">
+    <ul>
+      <li><h1>{props.name}</h1></li>
+      <li>{props.address}</li>
+      <li>{props.type}</li>
+      <li>{props.rating}*</li>
+    </ul>
+  </div>
+)
+
+AddressList.propTypes ={
+  name: React.PropTypes.string.isRequired,
+  address: React.PropTypes.array.isRequired,
+  type: React.PropTypes.array.isRequired,
+  rating: React.PropTypes.number.isRequired
+}
+
+export default AddressList

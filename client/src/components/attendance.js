@@ -37,12 +37,28 @@ class Attendance extends React.Component {
 
   render () {
     return (
-      <div className="attendance">
-        <h6>Attending</h6>
-        <a className="loc-btn" href="#" onClick={this.handleClick}>{this.state.attendance}</a>
-      </div>
+      <AttendanceRender func={this.handleClick} attendance={this.state.attendance} />
     )
   }
+}
+
+/*
+<div className="attendance">
+  <h6>Attending</h6>
+  <a className="loc-btn" href="#" onClick={this.handleClick}>{this.state.attendance}</a>
+</div>
+*/
+
+const AttendanceRender = (props) => (
+  <div className="attendance">
+    <h6>Attending</h6>
+    <a className="loc-btn" href="#" onClick={props.func}>{props.attendance}</a>
+  </div>
+)
+
+AttendanceRender.propTypes = {
+  func: React.PropTypes.func.isRequired,
+  attendance: React.PropTypes.number.isRequired
 }
 
 export default Attendance;

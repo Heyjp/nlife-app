@@ -25,14 +25,24 @@ class SearchForm extends React.Component {
   render () {
 
     return (
-      <div className="form" >
-        <form id="search" onSubmit={this.handleSubmit}>
-          <input type="text" name="" value={this.state.location} placeholder="Enter a city" onChange={this.handleChange}/>
-          <input className="hidden" type="submit"  />
-        </form>
-      </div>
+      <Form submit={this.handleSubmit} enterLocation={this.handleChange} location={this.state.location} />
     )
   }
+}
+
+const Form = (props) => (
+  <div className="form" >
+    <form id="search" onSubmit={props.submit}>
+      <input type="text" name="" value={props.location} placeholder="Enter a city" onChange={props.enterLocation}/>
+      <input className="hidden" type="submit"  />
+    </form>
+  </div>
+)
+
+Form.propTypes = {
+  submit: React.PropTypes.func,
+  value: React.PropTypes.string,
+  enterLocation: React.PropTypes.func
 }
 
 export default SearchForm

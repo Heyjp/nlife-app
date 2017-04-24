@@ -99,7 +99,12 @@ class ListContainer extends React.Component {
           return([
               <div key={i}>
                 <div className="location">
-                  <Address data={e} />
+                  <Address
+                  name={e.name}
+                  address={e.address}
+                  type={e.type}
+                  rating={e.number}
+                    />
                   <Attendance isLoggedIn={this.props.LoggedIn} data={e} />
                 </div>
                 <hr/>
